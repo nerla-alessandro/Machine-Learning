@@ -62,7 +62,7 @@ class LinearRegressionModel:
                 print()
                 return
         self.adapt_dataset(predictor_variables, response_variables, nan_val=nan_val)
-        self.pickled_model = "Regression/PickledModels/" + str(
+        self.pickled_model = "PickledModels/" + str(
             pd.util.hash_pandas_object(dataset[predictor_variables]).sum()) + ".pickle"
         if os.path.isfile(self.pickled_model):
             with open(self.pickled_model, "rb") as pickled_file:
@@ -211,7 +211,7 @@ class LinearRegressionModel:
                     try:
                         x_star = (float(x) - self.average_dict[variable]) / self.standard_dev_dict[variable]
                         y_star = (self.data[self.response_column[0]][n] - self.average_dict[self.response_column[0]]) \
-                                 / self.standard_dev_dict[self.response_column[0]]
+                            / self.standard_dev_dict[self.response_column[0]]
                         correlation_coeff += (x_star * y_star)
                         n += 1
                     except ValueError:
