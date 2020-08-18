@@ -9,6 +9,10 @@ import seaborn
 
 
 class PlotUtil:
+    """
+    Simplifies plotting
+    """
+
     @staticmethod
     def plot(x_data, y_data, title="", x_label="", y_label=""):
         """
@@ -221,7 +225,7 @@ class LinearRegressionModel:
             else:
                 self.corr_coeff_dict[variable] = "N/A"
 
-        # useful variables
+        # saves only useful variables
         correlation_coeff_dict_copy = self.corr_coeff_dict.copy()
         for corr_coeff in correlation_coeff_dict_copy:
             if self.corr_coeff_dict[corr_coeff] == "N/A":
