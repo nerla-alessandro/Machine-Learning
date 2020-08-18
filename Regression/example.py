@@ -1,4 +1,5 @@
 from Regression.linear_regression import LinearRegressionModel
+from plot_util import PlotUtil
 import pandas as pd
 
 crimeDataset = pd.read_csv("Datasets/crimeDataset.data")

@@ -2,30 +2,8 @@ import numpy as np
 import pandas as pd
 from sklearn import model_selection
 from sklearn import linear_model
-import matplotlib.pyplot as plt
 import pickle
 import os.path
-import seaborn
-
-
-class PlotUtil:
-
-    @staticmethod
-    def plot(x_data, y_data, title="", x_label="", y_label=""):
-        """
-        Simplifies matplotlib's plotting function
-
-        :param x_data: Input Data (X Axis Values)
-        :param y_data: Input Data (Y Axis Values)
-        :param title: Title of the Graph
-        :param x_label: Label of the X Axis
-        :param y_label: Label of the Y Axis
-        """
-        seaborn.scatterplot(x_data, y_data)
-        plt.xlabel(x_label)
-        plt.ylabel(y_label)
-        plt.title(title)
-        plt.show()
 
 
 class LinearRegressionModel:
@@ -223,7 +201,7 @@ class LinearRegressionModel:
                     try:
                         x_star = (float(x) - self.average_dict[variable]) / self.standard_dev_dict[variable]
                         y_star = (self.data[self.response_column[0]][n] - self.average_dict[self.response_column[0]]) \
-                                 / self.standard_dev_dict[self.response_column[0]]
+                            / self.standard_dev_dict[self.response_column[0]]
                         correlation_coeff += (x_star * y_star)
                         n += 1
                     except ValueError:
