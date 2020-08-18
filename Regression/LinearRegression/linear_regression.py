@@ -52,7 +52,7 @@ class LinearRegressionModel:
                 print()
                 return
         self.adapt_dataset(predictor_variables, response_variables, nan_val=nan_val)
-        self.pickled_model = "PickledModels/" + str(
+        self.pickled_model = "../../PickledModels/" + str(
             pd.util.hash_pandas_object(dataset[predictor_variables]).sum()) + ".pickle"
         if os.path.isfile(self.pickled_model):
             with open(self.pickled_model, "rb") as pickled_file:
