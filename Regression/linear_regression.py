@@ -45,8 +45,20 @@ class LinearRegressionModel:
     standard_dev_dict = {}
     corr_coeff_dict = {}
 
-    def __init__(self, dataset, predictor_variables, response_variables, test_size_percentage, nan_val=np.nan,
-                 target_accuracy=0.51, auto_select_predictors=False, useful_corr_threshold=0.5):
+    def __init__(self, dataset: pd.DataFrame, predictor_variables, response_variables, test_size_percentage,
+                 nan_val=np.nan, target_accuracy=0.51, auto_select_predictors=False, useful_corr_threshold=0.5):
+        """
+        Initializes the Model
+
+        :param dataset: Pandas Dataframe containing the dataset to build the model on
+        :param predictor_variables: Tags of the columns containing predictor variables
+        :param response_variables: Tags of the columns containing response variables
+        :param test_size_percentage: Percentage of dataset to use as test values (0 in case of separate test/train data)
+        :param nan_val: Value/Character used to represent null, NaN, NaT or missing values in a record
+        :param target_accuracy: Accuracy on test values that the model has to obtain before ending training
+        :param auto_select_predictors: Model automatically selects predictor variables based on correlation coefficient
+        :param useful_corr_threshold: Correlation coefficients with an absolute value under this threshold are discarded
+        """
         self.average_dict = {}
         self.standard_dev_dict = {}
         self.corr_coeff_dict = {}
@@ -120,7 +132,7 @@ class LinearRegressionModel:
         Trains the model using part of the dataset as training values and part as test values
 
         :param target_accuracy: Accuracy on test values that the model has to obtain before ending training
-        :param test_size_percentage: Percentage of the dataset to use as test values
+        :param test_size_percentage: test_size_percentage: Percentage of dataset to use as test values
         """
         max_acc = 0
         while max_acc < target_accuracy:
@@ -211,7 +223,7 @@ class LinearRegressionModel:
                     try:
                         x_star = (float(x) - self.average_dict[variable]) / self.standard_dev_dict[variable]
                         y_star = (self.data[self.response_column[0]][n] - self.average_dict[self.response_column[0]]) \
-                            / self.standard_dev_dict[self.response_column[0]]
+                                 / self.standard_dev_dict[self.response_column[0]]
                         correlation_coeff += (x_star * y_star)
                         n += 1
                     except ValueError:

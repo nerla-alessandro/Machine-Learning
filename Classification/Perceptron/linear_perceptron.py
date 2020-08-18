@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 
 class LinearPerceptron:
@@ -8,6 +9,13 @@ class LinearPerceptron:
     w = np.array
 
     def __init__(self, n_axes, points):
+        """
+        Initialises the perceptron and trains it on the given points \n
+        WARNING: If the points are not linearly separable no solution will be found
+
+        :param n_axes: Perceptron Hyperplane Dimensions
+        :param points: Point objects to train the perceptron on
+        """
         self.dimensions = n_axes
         weight_builder = []
         for i in range(self.dimensions):
@@ -34,16 +42,19 @@ class LinearPerceptron:
         print()
 
     def classify(self, point):
+        classification = np.dot(self.w, point.coordinates) + self.b
+        if classification != 0:
+            classification = int(classification / np.abs(classification))
         print("Point: " + str(point.coordinates))
-        print("Perceptron: " + str(self.w) + " - " + str(self.b))
-        print("Classification: " + str(np.dot(self.w, point.coordinates) + self.b))
+        print("Perceptron: w: " + str(self.w) + "  b: " + str(self.b))
+        print("Classification: " + str(classification))
         print("Actual class: " + str(point.category))
-        if (np.dot(self.w, point.coordinates) + self.b) * point.category > 0:
+        if (classification * point.category) > 0:
             print("Point " + str(point.coordinates) + " was classified correctly")
         else:
             print("Point " + str(point.coordinates) + " was misclassified")
         print()
-        return np.dot(self.w, point.coordinates) + self.b
+        return classification
 
 
 class Point:
@@ -55,10 +66,18 @@ class Point:
         self.coordinates = np.array(coords)
         self.coordinates.reshape(-1, 1)
 
+    @staticmethod
+    def create_point_list(dataframe: pd.DataFrame, category_variable):
+        points = []
+        coordinates = np.array(dataframe.drop(category_variable, axis=1)).tolist()
+        categories = np.array(dataframe[category_variable]).tolist()
+        for i in range(0, len(coordinates)):
+            points.append(Point(category=categories[i], coords=coordinates[i]))
+        return points
 
-x1 = Point(1, [-1, 1])
-x2 = Point(-1, [0, -1])
-x3 = Point(1, [10, 1])
-perceptron = LinearPerceptron(2, [x1, x2, x3])
 
-
+perceptron = LinearPerceptron(2, Point.create_point_list(pd.read_csv("points.csv"), "cat"))
+T1 = Point(-1, [1, 3])
+T2 = Point(1, [8, 3])
+perceptron.classify(T1)
+perceptron.classify(T2)
