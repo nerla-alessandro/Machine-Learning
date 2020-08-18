@@ -33,6 +33,12 @@ class KNearestNeighbours:
             self.points = points
 
     def score(self, points: []):
+        """
+        Scores accuracy as percentage of correct classifications over total classifications
+
+        :param points: Test set
+        :return: Score (0 to 1)
+        """
         n = len(points)
         hits = 0.0
         for p in points:
