@@ -44,14 +44,14 @@ class LinearRegressionModel:
         self.response_column = response_variables
         self.nan_val = nan_val
         if auto_select_predictors:
-            self.generate_dataset_data(useful_corr_threshold)
+            self.__generate_dataset_data(useful_corr_threshold)
             self.corr_coeff_dict.pop(self.response_column[0])
             predictor_variables = self.corr_coeff_dict.keys()
             if len(predictor_variables) == 0:
                 print("WARNING: DATASET HAS NO LINEAR CORRELATION")
                 print()
                 return
-        self.adapt_dataset(predictor_variables, response_variables, nan_val=nan_val)
+        self.__adapt_dataset(predictor_variables, response_variables, nan_val=nan_val)
         self.pickled_model = "../PickledModels/" + str(
             pd.util.hash_pandas_object(dataset[predictor_variables]).sum()) + ".pickle"
         if os.path.isfile(self.pickled_model):
@@ -60,13 +60,13 @@ class LinearRegressionModel:
             self.print_model_data()
         else:
             if test_size_percentage == 0:
-                self.train_only()
+                self.__train_only()
                 self.print_model_data(test_fit=False, train_fit=True)
             else:
-                self.train(target_accuracy, test_size_percentage)
+                self.__train(target_accuracy, test_size_percentage)
                 self.print_model_data(train_fit=True)
 
-    def adapt_dataset(self, predictor_variables, response_variables, nan_val):
+    def __adapt_dataset(self, predictor_variables, response_variables, nan_val):
         """
         Removes records with missing values and then saves the values from the requested columns
 
@@ -94,7 +94,7 @@ class LinearRegressionModel:
             x_arr.shape = (len(x_arr), 1)
         return self.model.score(x_arr, y_arr)
 
-    def train_only(self):
+    def __train_only(self):
         """
         Trains the model using the whole dataset
         """
@@ -105,7 +105,7 @@ class LinearRegressionModel:
         with open(self.pickled_model, "wb") as f:
             pickle.dump(self.model, f)
 
-    def train(self, target_accuracy, test_size_percentage):
+    def __train(self, target_accuracy, test_size_percentage):
         """
         Trains the model using part of the dataset as training values and part as test values
 
@@ -148,7 +148,7 @@ class LinearRegressionModel:
             print("Intercept:" + str(self.model.intercept_))
         print()
 
-    def generate_dataset_data(self, useful_corr_threshold):
+    def __generate_dataset_data(self, useful_corr_threshold):
         """
         For every variable in the dataset, generates the following: \n
         1- Mean [Every Variable] \n
@@ -227,7 +227,7 @@ class LinearRegressionModel:
         2- Standard Deviation
         3- Pearson Correlation Coefficient
         """
-        self.generate_dataset_data(useful_corr_threshold=0)
+        self.__generate_dataset_data(useful_corr_threshold=0)
         print("Averages:")
         print(self.average_dict)
         print()
