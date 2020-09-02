@@ -1,5 +1,6 @@
 from sklearn.tree import DecisionTreeRegressor
 from sklearn import model_selection
+import pandas as pd
 
 
 class RegressionTree:
@@ -10,9 +11,13 @@ class RegressionTree:
         if test_size_percentage == 0:
             self.model.fit(dataset[predictorVariables], dataset[responseVariable])
         else:
-            predictor_train, predictor_test, response_train, response_test = model_selection.train_test_split(dataset,
+            predictor_train, predictor_test, response_train, response_test = model_selection.train_test_split(dataset[predictorVariables], dataset[responseVariable],
                                                                                                               test_size=test_size_percentage)
             self.model.fit(predictor_train, response_train)
             print(self.model.score(predictor_test, response_test))
 
 
+dataset = pd.read_csv("../Datasets/winequality-red.csv")
+model = RegressionTree(dataset, ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides",
+                                 "free sulfur dioxide", "total sulfur dioxide", "density", "pH", "sulphates",
+                                 "alcohol"], ["quality"], max_depth=40, test_size_percentage=0.8)
