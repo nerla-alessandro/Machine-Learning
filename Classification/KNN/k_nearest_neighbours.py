@@ -1,4 +1,4 @@
-from Classification.point import Point
+from point import Point
 import numpy as np
 import random
 
